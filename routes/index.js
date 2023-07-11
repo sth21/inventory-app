@@ -2,19 +2,14 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/category");
+const Controllers = require("../controllers/index");
 
 /* 
   PAGES 
 */
 
 // Home
-router.get(
-  "/",
-  asyncHandler(async (req, res, next) => {
-    const categories = await Category.find();
-    console.log(categories);
-  })
-);
+router.get("/", Controllers.GET_HOME_PAGE);
 
 // View Category
 router.get("/:category", function (req, res, next) {});

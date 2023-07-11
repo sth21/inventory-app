@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Shirt Shop</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Shirt Shop</h1>
+    <% locals.categories.forEach((category) => { %>
+      <a class="category-link" href="<%= category.url %>"><%= category.name %></a>
+    <% }) %>
   </body>
 </html>
