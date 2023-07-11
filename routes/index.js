@@ -2,17 +2,17 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/category");
-const Controllers = require("../controllers/index");
+const Controller = require("../controllers/index");
 
 /* 
   PAGES 
 */
 
 // Home
-router.get("/", Controllers.GET_HOME_PAGE);
+router.get("/", Controller.GET_HOME_PAGE);
 
 // View Category
-router.get("/:category", function (req, res, next) {});
+router.get("/:category", Controller.GET_CATEGORY_PAGE);
 
 // View Item
 router.get("/:category/:item", function (req, res, next) {});

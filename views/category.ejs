@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= locals.categoryName %></title>
+</head>
+<body>
+    <h1><% locals.categoryName %></h1>
+    <% locals.shirts.forEach((shirt) => { %>
+        <a href="<% shirt._id %>"><%= shirt.name %></a>
+    <% }) %>
+</body>
+</html>

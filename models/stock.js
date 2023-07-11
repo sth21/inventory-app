@@ -7,6 +7,7 @@ const StockSchema = new Schema({
   colors: [
     {
       name: { type: String, minLength: 1, required: true },
+      hexCode: { type: String, minLength: 7, maxLength: 7, default: "#000000" },
       XS: { type: Number, min: 0, default: 0 },
       S: { type: Number, min: 0, default: 0 },
       M: { type: Number, min: 0, default: 0 },
@@ -28,4 +29,4 @@ StockSchema.statics.isProductInStock = function (product) {
   return product.colors.some((color) => isColorInStock(color));
 };
 
-exports.Stock = new mongoose.model("Category", CategorySchema);
+module.exports = new mongoose.model("Stock", StockSchema);
