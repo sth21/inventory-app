@@ -2,9 +2,15 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
+require("dotenv").config();
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(process.env.MONGO_DB_KEY)
+  .then(() => console.log("Connected to DB"))
+  .catch(() => console.log("Failed to connect to DB"));
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
 
 const app = express();
 

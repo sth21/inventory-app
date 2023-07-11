@@ -1,12 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const asyncHandler = require("express-async-handler");
+const Category = require("../models/category");
 
 /* 
   PAGES 
 */
 
 // Home
-router.get("/", function (req, res, next) {});
+router.get(
+  "/",
+  asyncHandler(async (req, res, next) => {
+    const categories = await Category.find();
+    console.log(categories);
+  })
+);
 
 // View Category
 router.get("/:category", function (req, res, next) {});

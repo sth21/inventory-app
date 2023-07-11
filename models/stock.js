@@ -28,6 +28,4 @@ StockSchema.statics.isProductInStock = function (product) {
   return product.colors.some((color) => isColorInStock(color));
 };
 
-// Access StockSchema for creation of Shirt Model
-exports.StockSchema = StockSchema;
-exports.Stock = new mongoose.Model("Category", CategorySchema);
+exports.Stock = new mongoose.model("Category", CategorySchema);
