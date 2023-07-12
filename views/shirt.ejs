@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Shirt Shop - <%= locals.category.name %></title>
+</head>
+<body>
+    <h1><%= locals.shirt.name %></h1>
+    <p><%= locals.shirt.description %></p>
+    <p><%= locals.shirt.price %></p>
+    <p><%= locals.shirt.category.name %></p>
+    <% locals.shirt.stock.colors.forEach((color) => { %>
+        <p>Name: <%= color.name %></p>
+        <p>Hex: <%= color.hexCode %></p>
+        <p>XS: <%= color.XS %></p>
+        <p>S: <%= color.S %></p>
+        <p>M: <%= color.M %></p>
+        <p>L: <%= color.L %></p>
+        <p>XL: <%= color.XL %></p>
+        <p>XXL: <%= color.XXL %></p>
+    <% }) %>
+    
+</body>
+</html>

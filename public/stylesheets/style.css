@@ -10,3 +10,14 @@ a {
 a.category-link {
   display: block;
 }
+
+div.shirt-wrapper {
+  display: flex;
+  gap: 2em;
+  flex-direction: column;
+}
+
+a.shirt {
+  display: flex;
+  flex-direction: column;
+}

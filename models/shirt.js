@@ -11,4 +11,8 @@ const ShirtSchema = new Schema({
   stock: { type: mongoose.Types.ObjectId, ref: "Stock", required: true },
 });
 
+ShirtSchema.virtual("url").get(function () {
+  return `/${this._id}`;
+});
+
 module.exports = new mongoose.model("Shirt", ShirtSchema);

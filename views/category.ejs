@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= locals.categoryName %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Shirt Shop - <%= locals.category.name %></title>
 </head>
 <body>
     <h1><% locals.categoryName %></h1>
-    <% locals.shirts.forEach((shirt) => { %>
-        <a href="<% shirt._id %>"><%= shirt.name %></a>
-    <% }) %>
+    <div class="shirt-wrapper">
+        <% locals.shirts.forEach((shirt) => { %>
+            <a href="<%= category.url %><%= shirt.url %>" class="shirt">
+                <p><%= shirt.name %></p>
+                <p><%= shirt.price %></p>
+            </a>
+        <% }) %>
+    </div>
 </body>
 </html>
