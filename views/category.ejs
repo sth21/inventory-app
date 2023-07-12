@@ -7,7 +7,9 @@
     <title>Shirt Shop - <%= locals.category.name %></title>
 </head>
 <body>
-    <h1><% locals.categoryName %></h1>
+    <h1><% locals.category.name %></h1>
+    <a href="/">Go Back</a>
+    <a href="<%= locals.category.url %>/new">Add New Shirt</a>
     <div class="shirt-wrapper">
         <% locals.shirts.forEach((shirt) => { %>
             <a href="<%= category.url %><%= shirt.url %>" class="shirt">

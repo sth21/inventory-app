@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Shirt - <%= locals.category.name %></title>
+</head>
+<body>
+    <h1>Add New Shirt</h1>
+    <a href="<%= locals.category.url %>">Go back</a>
+    <form action="<%= locals.category.url %>/new" method="post">
+        <fieldset id="info">
+            <legend>Shirt Info</legend>
+            <div class="input-wrapper">
+                <label for="shirtName">Name</label>
+                <input type="text" name="shirtName" id="shirtName" required>
+            </div>
+            <div class="input-wrapper">
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description" required>
+            </div>
+            <div class="input-wrapper">
+                <label for="price">Price</label>
+                <input type="number" name="price" id="price" min="0" required>
+            </div>
+        </fieldset>
+        <fieldset id="stock">
+            <legend>Shirt Stock</legend>
+            <button type="button" class="add-color-btn" onclick="addColor({})">Add Color</button>
+        </fieldset>
+        <button type="submit" class="submit-btn">Add Shirt</button>
+    </form>
+</body>
+
+<script>
+    function addColor() {
+        const inputArray = [
+            { type: "text", text: "Color Name", id: "colorName" },
+            { type: "color", text: "Hex Code", id: "hexCode" },
+            { type: "number", text: "XS", id: "XS" },
+            { type: "number", text: "S", id: "S" },
+            { type: "number", text: "M", id: "M" },
+            { type: "number", text: "L", id: "L" },
+            { type: "number", text: "XL", id: "XL" },
+            { type: "number", text: "XXL", id: "XXL" },
+        ];
+
+        const colorWrapper = document.createElement("div");
+        colorWrapper.setAttribute("class", "color-wrapper");
+
+        for (const input of inputArray) {
+            const wrapper = document.createElement("div");
+            wrapper.setAttribute("class", "input-wrapper");
+
+            const label = document.createElement("label");
+            label.setAttribute("for", input.id);
+            label.textContent = input.text;
+            wrapper.appendChild(label);
+
+            const inputEl = document.createElement("input");
+            inputEl.setAttribute("type", input.type);
+            inputEl.setAttribute("name", input.id);
+            inputEl.setAttribute("id", input.id);
+            inputEl.setAttribute("required", true);
+
+            if (typeof input.type === "number") inputEl.setAttribute("min", "0");
+            wrapper.appendChild(inputEl);
+
+            colorWrapper.appendChild(wrapper);
+        }
+
+        const button = document.createElement("button");
+        button.setAttribute("class", "delete-color-btn");
+        button.addEventListener("click", removeColor);
+        colorWrapper.appendChild(button);
+
+        const parentNode = document.getElementById("stock");
+        parentNode.appendChild(colorWrapper);
+    };
+
+    function removeColor(e) {
+        const colorWrapper = e.target.parentNode;
+        colorWrapper.remove();
+    };
+</script>
+</html>

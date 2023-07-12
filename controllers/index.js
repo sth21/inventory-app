@@ -20,6 +20,13 @@ exports.GET_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
   const requestedShirt = await Shirt.findOne({ _id: shirt })
     .populate("stock")
     .populate("category");
-  console.log(requestedShirt);
   res.render("shirt", { category: requestedCategory, shirt: requestedShirt });
+});
+
+exports.ADD_NEW_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
+  const category = req.params.category;
+  const requestedCategory = await Category.find().byNameParam(category);
+  res.render("new-shirt", {
+    category: requestedCategory,
+  });
 });

@@ -14,11 +14,11 @@ router.get("/", Controller.GET_HOME_PAGE);
 // View Category
 router.get("/:category", Controller.GET_CATEGORY_PAGE);
 
+// Create shirt
+router.get("/:category/new", Controller.ADD_NEW_SHIRT_PAGE);
+
 // View shirt
 router.get("/:category/:shirt", Controller.GET_SHIRT_PAGE);
-
-// Create shirt
-router.get("/:category/:shirt/new", function (req, res, next) {});
 
 // Update shirt Info
 router.get("/:category/:shirt/updateInfo", function (req, res, next) {});
