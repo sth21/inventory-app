@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/category");
-const Controller = require("../controllers/index");
+const Controller = require("../controllers/routes");
+const Validator = require("../controllers/validators");
+const { validationResult } = require("express-validator");
 
 /* 
   PAGES 
@@ -34,7 +36,12 @@ router.get("/:category/:shirt/delete", function (req, res, next) {});
 */
 
 // Create shirt
-router.post("/:category/new", Controller.POST_NEW_SHIRT_ACTION);
+
+router.post(
+  "/:category/new",
+  Validator.VALIDATE_SHIRT,
+  Controller.POST_NEW_SHIRT_ACTION
+);
 
 // Update shirt Info
 router.patch("/:category/:shirt/updateInfo", function (req, res, next) {});

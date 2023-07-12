@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/category");
 const Shirt = require("../models/shirt");
+const { validationResult } = require("express-validator");
 
 exports.GET_HOME_PAGE = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
@@ -32,6 +33,11 @@ exports.ADD_NEW_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
 });
 
 exports.POST_NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
-  console.dir(req.body);
-  res.redirect("/");
+  const result = validationResult(req);
+  console.log("HIT THE FINAL MIDDLEWARE");
+  if (result.isEmpty()) {
+    res.send(req.body);
+  } else {
+    res.send(result.array());
+  }
 });
