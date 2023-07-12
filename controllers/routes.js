@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const Category = require("../models/category");
 const Shirt = require("../models/shirt");
-const { validationResult } = require("express-validator");
+const { validationResult, matchedData } = require("express-validator");
+const mongoose = require("mongoose");
+const Stock = require("../models/stock");
 
 exports.GET_HOME_PAGE = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
@@ -34,10 +36,38 @@ exports.ADD_NEW_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
 
 exports.POST_NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   const result = validationResult(req);
-  console.log("HIT THE FINAL MIDDLEWARE");
   if (result.isEmpty()) {
-    res.send(req.body);
-  } else {
-    res.send(result.array());
+    const data = matchedData(req);
+    console.log(data);
+    const shirtId = new mongoose.Types.ObjectId();
+    const categoryParam = req.params.category;
+    const requestedCategory = await Category.find().byNameParam(categoryParam);
+    const stock = await Stock.create({
+      product: shirtId,
+      colors: data.colorName.map((color, index) => {
+        return {
+          name: color,
+          hexCode: data.hexCode[index],
+          XS: data.XS[index],
+          S: data.S[index],
+          M: data.M[index],
+          L: data.L[index],
+          XL: data.XL[index],
+          XXL: data.XXL[index],
+        };
+      }),
+    });
+
+    const shirt = await Shirt.create({
+      _id: shirtId,
+      name: data.shirtName,
+      description: data.description,
+      price: data.price,
+      category: requestedCategory._id,
+      stock: stock,
+    });
+
+    res.redirect(`${requestedCategory.url}${shirt.url}`);
   }
+  next(result.throw());
 });

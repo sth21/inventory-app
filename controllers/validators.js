@@ -47,19 +47,10 @@ const SHIRT_CATEGORY = param("category")
   .notEmpty()
   .custom(async (val) => {
     const category = await Category.find().byNameParam(val);
-    return !!category;
+    if (category) return true;
+    throw new Error("Category does not exist");
   })
   .escape();
-
-const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
-  const props = ["colorName", "hexCode", "XS", "S", "M", "L", "XL", "XXL"];
-  props.forEach((prop) => {
-    if (!Array.isArray(req.body[prop])) {
-      req.body[prop] = [req.body[prop]];
-    }
-  });
-  next();
-});
 
 const COLOR_NAME = body("colorName.*")
   .exists()
@@ -75,13 +66,22 @@ const HEX_CODE = body("hexCode.*")
   .isHexColor()
   .escape();
 
-const SIZE = body(["XS.*, S.*, M.*, L.*, XL.*, XXL.*"])
+const SIZE = body(["XS.*", "S.*", "M.*", "L.*", "XL.*", "XXL.*"])
   .exists()
-  .trim()
-  .notEmpty()
+  .isNumeric()
   .isInt()
   .custom((val) => val >= 0)
   .escape();
+
+const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
+  const props = ["colorName", "hexCode", "XS", "S", "M", "L", "XL", "XXL"];
+  props.forEach((prop) => {
+    if (!Array.isArray(req.body[prop])) {
+      req.body[prop] = [req.body[prop]];
+    }
+  });
+  next();
+});
 
 exports.VALIDATE_SHIRT = [
   CREATE_COLOR_ARRAY,
