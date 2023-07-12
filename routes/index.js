@@ -34,15 +34,15 @@ router.get("/:category/:shirt/delete", function (req, res, next) {});
 */
 
 // Create shirt
-router.post("/:category/:shirt", function (req, res, next) {});
+router.post("/:category/new", Controller.POST_NEW_SHIRT_ACTION);
 
 // Update shirt Info
-router.patch("/:category/:shirt/info", function (req, res, next) {});
+router.patch("/:category/:shirt/updateInfo", function (req, res, next) {});
 
 // Update shirt Stock
-router.patch("/:category/:shirt/stock", function (req, res, next) {});
+router.patch("/:category/:shirt/updateStock", function (req, res, next) {});
 
 // Delete shirt
-router.delete("/:category/:shirt", function (req, res, next) {});
+router.delete("/:category/:shirt/delete", function (req, res, next) {});
 
 module.exports = router;

@@ -30,3 +30,8 @@ exports.ADD_NEW_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
     category: requestedCategory,
   });
 });
+
+exports.POST_NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
+  console.dir(req.body);
+  res.redirect("/");
+});
