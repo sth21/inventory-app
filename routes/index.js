@@ -61,28 +61,45 @@ router.get("/:category/:shirt/delete", function (req, res, next) {});
 */
 
 // Create shirt
-
 router.post(
   "/:category/new",
   Validator.VALIDATE_SHIRT,
-  Controller.POST_NEW_SHIRT_ACTION
+  Controller.NEW_SHIRT_ACTION
 );
 
-// Update shirt Info
+// Update shirt info
 router.post(
   "/:category/:shirt/updateInfo",
   Validator.VALIDATE_SHIRT_INFO,
-  Controller.POST_UPDATE_SHIRT_INFO_ACTION
+  Controller.UPDATE_SHIRT_INFO_ACTION
 );
 
-// Update shirt Stock
+// Update shirt stock
 router.post(
   "/:category/:shirt/updateStock",
   Validator.VALIDATE_SHIRT_STOCK,
-  Controller.POST_UPDATE_SHIRT_STOCK_ACTION
+  Controller.UPDATE_SHIRT_STOCK_ACTION
 );
 
 // Delete shirt
-router.post("/:category/:shirt/delete", Controller.DELETE_SHIRT_ACTION);
+router.post(
+  "/:category/:shirt/delete",
+  Validator.VALIDATE_PASSWORD,
+  Controller.DELETE_SHIRT_ACTION
+);
+
+// Create category
+router.post(
+  "/newCategory",
+  Validator.VALIDATE_PASSWORD,
+  Controller.NEW_CATEGORY_ACTION
+);
+
+// Update category info
+router.post(
+  "/updateCategory",
+  Validator.VALIDATE_PASSWORD,
+  Controller.UPDATE_CATEGORY_ACTION
+);
 
 module.exports = router;

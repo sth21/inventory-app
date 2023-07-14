@@ -109,3 +109,12 @@ exports.VALIDATE_SHIRT_INFO = [
 ];
 
 exports.VALIDATE_SHIRT_STOCK = [CREATE_COLOR_ARRAY, COLOR_NAME, HEX_CODE, SIZE];
+
+exports.VALIDATE_PASSWORD = body("password")
+  .exists()
+  .trim()
+  .notEmpty()
+  .custom((v) => {
+    if (v === process.env.ADMIN_KEY) return true;
+    throw new Error("Password incorrect");
+  });

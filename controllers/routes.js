@@ -52,7 +52,7 @@ exports.UPDATE_SHIRT_STOCK_PAGE = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.POST_NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
+exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   const result = validationResult(req);
 
   if (result.isEmpty()) {
@@ -86,7 +86,7 @@ exports.POST_NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.POST_UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
+exports.UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
   const result = validationResult(req);
   const shirt = req.shirt;
   const category = req.category;
@@ -106,34 +106,57 @@ exports.POST_UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.POST_UPDATE_SHIRT_STOCK_ACTION = asyncHandler(
-  async (req, res, next) => {
-    const result = validationResult(req);
-    const shirt = req.shirt;
-    const category = req.category;
+exports.UPDATE_SHIRT_STOCK_ACTION = asyncHandler(async (req, res, next) => {
+  const result = validationResult(req);
+  const shirt = req.shirt;
+  const category = req.category;
 
-    if (result.isEmpty()) {
-      const data = matchedData(req);
-      await Stock.updateOne(
-        { _id: shirt.stock._id },
-        { colors: populateStockColors(data) }
-      );
-      res.redirect(`${category.url}${shirt.url}`);
-      return;
-    }
-    res.render("update-shirt-stock", {
-      category: category,
-      shirt: shirt,
-    });
+  if (result.isEmpty()) {
+    const data = matchedData(req);
+    await Stock.updateOne(
+      { _id: shirt.stock._id },
+      { colors: populateStockColors(data) }
+    );
+    res.redirect(`${category.url}${shirt.url}`);
+    return;
   }
-);
+  res.render("update-shirt-stock", {
+    category: category,
+    shirt: shirt,
+  });
+});
 
 exports.DELETE_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
-  const password = req.body.password;
-  if (password === process.env.ADMIN_KEY) {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
     await Shirt.deleteOne({ _id: req.shirt._id });
     res.redirect(`${req.category.url}`);
     return;
   }
   res.render("shirt", { category: req.category, shirt: req.shirt });
+});
+
+exports.NEW_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const data = matchedData(req);
+    const category = await Category.create({ name: data.name });
+    res.redirect(`${category.url}`);
+    return;
+  }
+  res.render("new-category", { name: req.body.name });
+});
+
+exports.UPDATE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const data = matchedData(req);
+    await Category.updateOne({ _id: req.category._id }, { name: data.name });
+    res.redirect(`${req.category._id}`);
+    return;
+  }
+  res.render("update-category", { name: req.body.name });
 });
