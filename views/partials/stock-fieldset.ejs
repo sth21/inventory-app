@@ -1,0 +1,47 @@
+<fieldset id="stock">
+    <legend>Shirt Stock</legend>
+    <button type="button" class="add-color-btn" onclick="addColor()">Add Color</button>
+    <% if (locals.shirt) { %>
+        <% locals.shirt.stock.colors.forEach((color) => { %>
+            <div class="color-wrapper">
+                <div class="input-wrapper">
+                    <label for="colorName">Color Name</label>
+                    <input type="text" name="colorName" id="colorName" value="<%= color.name %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="hexCode">Hex Code</label>
+                    <input type="color" name="hexCode" id="hexCode" value="<%= color.hexCode %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="XS">XS</label>
+                    <input type="number" name="XS" id="XS" value="<%= color.XS %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="S">S</label>
+                    <input type="number" name="S" id="S" value="<%= color.S %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="M">M</label>
+                    <input type="number" name="M" id="M" value="<%= color.M %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="L">L</label>
+                    <input type="number" name="L" id="L" value="<%= color.L %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="XL">XL</label>
+                    <input type="number" name="XL" id="XL" value="<%= color.XL %>">
+                </div>
+                <div class="input-wrapper">
+                    <label for="XXL">XXL</label>
+                    <input type="number" name="XXL" id="XXL" value="<%= color.XXL %>">
+                </div>
+                <button type="button" class="remove-color-btn">Remove Color</button>
+            </div>
+        <% }) %>
+        <script>
+            const buttons = document.getElementsByClassName("remove-color-btn");
+            for (const button of buttons) button.addEventListener("click", removeColor);
+        </script>
+    <% } %>
+</fieldset>

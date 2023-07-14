@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="/index.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Update Shirt Stock - <%= locals.category.name %></title>
+</head>
+<body>
+    <h1>Update Shirt Stock</h1>
+    <a href="<%= locals.category.url %><%= locals.shirt.url %>">Go Back</a>
+    <form action="<%= locals.category.url %><%= locals.shirt.url %>/updateStock" method="post">
+        <%- include("partials/stock-fieldset") %>
+        <button type="submit" class="submit-btn">Update Shirt Stock</button>
+    </form>
+</body>
+</html>

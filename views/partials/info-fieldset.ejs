@@ -1,0 +1,15 @@
+<fieldset id="info">
+    <legend>Shirt Info</legend>
+    <div class="input-wrapper">
+        <label for="shirtName">Name</label>
+        <input type="text" name="shirtName" id="shirtName" value="<%= locals.shirt ? locals.shirt.name : "" %>" required>
+    </div>
+    <div class="input-wrapper">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" value="<%= locals.shirt ? locals.shirt.description : "" %>" required>
+    </div>
+    <div class="input-wrapper">
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" min="0" value="<%= locals.shirt ? locals.shirt.price : "" %>" required>
+    </div>
+</fieldset>

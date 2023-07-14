@@ -17,7 +17,7 @@ const CATEGORY_NAME = body("categoryName")
   })
   .escape();
 
-const SHIRT_NAME = body("shirtName")
+const ADD_SHIRT_NAME = body("shirtName")
   .exists()
   .trim()
   .notEmpty()
@@ -30,6 +30,13 @@ const SHIRT_NAME = body("shirtName")
     }
     return true;
   })
+  .escape();
+
+const UPDATE_SHIRT_NAME = body("shirtName")
+  .exists()
+  .trim()
+  .notEmpty()
+  .isAlpha("en-US", { ignore: " " })
   .escape();
 
 const SHIRT_DESCRIPTION = body("description")
@@ -85,7 +92,7 @@ const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
 
 exports.VALIDATE_SHIRT = [
   CREATE_COLOR_ARRAY,
-  SHIRT_NAME,
+  ADD_SHIRT_NAME,
   SHIRT_DESCRIPTION,
   SHIRT_PRICE,
   SHIRT_CATEGORY,
@@ -93,3 +100,12 @@ exports.VALIDATE_SHIRT = [
   HEX_CODE,
   SIZE,
 ];
+
+exports.VALIDATE_SHIRT_INFO = [
+  CREATE_COLOR_ARRAY,
+  UPDATE_SHIRT_NAME,
+  SHIRT_DESCRIPTION,
+  SHIRT_PRICE,
+];
+
+exports.VALIDATE_SHIRT_STOCK = [CREATE_COLOR_ARRAY, COLOR_NAME, HEX_CODE, SIZE];

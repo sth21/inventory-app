@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/index.js" defer></script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <title>Add New Shirt - <%= locals.category.name %></title>
+    <title>Update Shirt Info - <%= locals.category.name %></title>
 </head>
 <body>
-    <h1>Add New Shirt</h1>
-    <a href="<%= locals.category.url %>">Go back</a>
-    <form action="<%= locals.category.url %>/new" method="post">
+    <h1>Update Shirt Info</h1>
+    <a href="<%= locals.category.url %><%= locals.shirt.url %>">Go Back</a>
+    <form action="<%= locals.category.url %><%= locals.shirt.url %>/updateInfo" method="post">
         <%- include("partials/info-fieldset") %>
-        <%- include("partials/stock-fieldset") %>
-        <button type="submit" class="submit-btn">Add Shirt</button>
+        <button type="submit" class="submit-btn">Update Shirt Info</button>
     </form>
 </body>
 </html>
