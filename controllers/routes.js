@@ -4,6 +4,7 @@ const Shirt = require("../models/shirt");
 const { validationResult, matchedData } = require("express-validator");
 const mongoose = require("mongoose");
 const Stock = require("../models/stock");
+require("dotenv").config();
 
 const populateStockColors = (data) => {
   return data.colorName.map((color, index) => {
@@ -126,3 +127,13 @@ exports.POST_UPDATE_SHIRT_STOCK_ACTION = asyncHandler(
     });
   }
 );
+
+exports.DELETE_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
+  const password = req.body.password;
+  if (password === process.env.ADMIN_KEY) {
+    await Shirt.deleteOne({ _id: req.shirt._id });
+    res.redirect(`${req.category.url}`);
+    return;
+  }
+  res.render("shirt", { category: req.category, shirt: req.shirt });
+});

@@ -83,6 +83,6 @@ router.post(
 );
 
 // Delete shirt
-router.delete("/:category/:shirt/delete", function (req, res, next) {});
+router.post("/:category/:shirt/delete", Controller.DELETE_SHIRT_ACTION);
 
 module.exports = router;
