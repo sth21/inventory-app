@@ -6,8 +6,13 @@
   </head>
   <body>
     <h1>Shirt Shop</h1>
-    <% locals.categories.forEach((category) => { %>
-      <a href="<%= category.url %>"><%= category.name %></a>
-    <% }) %>
+    <div class="item-wrapper">
+      <% locals.categories.forEach((category) => { %>
+        <a class="item" href="<%= category.url %>">
+          <div class="mock-img"></div>
+          <p class="label"><%= category.name %></p>
+        </a>
+      <% }) %>
+    </div>
   </body>
 </html>

@@ -7,25 +7,49 @@
     <title>Shirt Shop - <%= locals.category.name %></title>
 </head>
 <body>
-    <h1><%= locals.shirt.name %></h1>
-    <div class="horizontal-links">
+    <div class="horizontal-links item-view">
         <a href="<%= locals.category.url %>">Go Back</a>
         <a href="<%= locals.category.url %><%= locals.shirt.url %>/delete-shirt">Delete Shirt</a>
         <a href="<%= locals.category.url %><%= locals.shirt.url %>/update-info">Update Shirt Info</a>
         <a href="<%= locals.category.url %><%= locals.shirt.url %>/update-stock">Update Shirt Stock</a>
     </div>
-    <p><%= locals.shirt.description %></p>
-    <p><%= locals.shirt.price %></p>
-    <p><%= locals.shirt.category.name %></p>
-    <% locals.shirt.stock.colors.forEach((color) => { %>
-        <p>Name: <%= color.name %></p>
-        <p>Hex: <%= color.hexCode %></p>
-        <p>XS: <%= color.XS %></p>
-        <p>S: <%= color.S %></p>
-        <p>M: <%= color.M %></p>
-        <p>L: <%= color.L %></p>
-        <p>XL: <%= color.XL %></p>
-        <p>XXL: <%= color.XXL %></p>
-    <% }) %>
+    <div class="item-info">
+        <h1 class="item-name"><%= locals.shirt.name %></h1>
+        <p><%= locals.shirt.usd %></p>
+        <% if (locals.shirt.stock.productInStock()) { %>
+            <p class="yes-stock">Status: In Stock</p>
+        <% } else { %>
+            <p class="no-stock">Status: Out of Stock</p>
+        <% } %>
+        <p><%= locals.shirt.description %></p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Color</th>
+                <th>Hex Code</th>
+                <th>XS</th>
+                <th>S</th>
+                <th>M</th>
+                <th>L</th>
+                <th>XL</th>
+                <th>XXL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% locals.shirt.stock.colors.forEach((color) => { %>
+                <tr>
+                    <td><%= color.name %></td>
+                    <td><%= color.hexCode %></td>
+                    <td><%= color.XS %></td>
+                    <td><%= color.S %></td>
+                    <td><%= color.M %></td>
+                    <td><%= color.L %></td>
+                    <td><%= color.XL %></td>
+                    <td><%= color.XXL %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
 </body>
 </html>

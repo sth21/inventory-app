@@ -14,11 +14,11 @@
         <a href="<%= locals.category.url %>/update-category">Update Category</a>
         <a href="<%= locals.category.url %>/new">Add New Shirt</a>
     </div>
-    <div class="shirt-wrapper">
+    <div class="item-wrapper">
         <% locals.shirts.forEach((shirt) => { %>
-            <a href="<%= category.url %><%= shirt.url %>" class="shirt">
+            <a href="<%= category.url %><%= shirt.url %>" class="item">
                 <div class="mock-img" role="img"></div>
-                <p class="shirt-label"><%= shirt.name %> - <%= shirt.usd %></p>
+                <p class="label"><%= shirt.name %> - <%= shirt.usd %></p>
             </a>
         <% }) %>
     </div>

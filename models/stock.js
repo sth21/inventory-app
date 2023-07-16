@@ -19,14 +19,21 @@ const StockSchema = new Schema({
 });
 
 // Check if an individual color of a product is in stock
-StockSchema.statics.isColorInStock = function (color) {
-  return color.XS + color.S + color.M + color.L + color.XL + color.XXL !== 0;
+StockSchema.methods.colorInStock = function (index) {
+  return (
+    this.colors[index].XS +
+      this.colors[index].S +
+      this.colors[index].M +
+      this.colors[index].L +
+      this.colors[index].XL +
+      this.colors[index].XXL !==
+    0
+  );
 };
 
 // Check if an individual product is in stock
-StockSchema.statics.isProductInStock = function (product) {
-  const isColorInStock = this.schema.statics.isColorInStock;
-  return product.colors.some((color) => isColorInStock(color));
+StockSchema.methods.productInStock = function () {
+  return this.colors.some((_, i) => this.colorInStock(i));
 };
 
 module.exports = new mongoose.model("Stock", StockSchema);
