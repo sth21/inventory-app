@@ -48,6 +48,7 @@ function addColor(color) {
   const button = document.createElement("button");
   button.setAttribute("class", "delete-color-btn");
   button.addEventListener("click", removeColor);
+  button.textContent = "Remove Color";
   colorWrapper.appendChild(button);
 
   const parentNode = document.getElementById("stock");

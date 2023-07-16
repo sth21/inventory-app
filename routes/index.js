@@ -48,13 +48,16 @@ router.get("/:category/new", Controller.ADD_NEW_SHIRT_PAGE);
 router.get("/:category/:shirt", Controller.GET_SHIRT_PAGE);
 
 // Update shirt Info
-router.get("/:category/:shirt/updateInfo", Controller.UPDATE_SHIRT_INFO_PAGE);
+router.get("/:category/:shirt/update-info", Controller.UPDATE_SHIRT_INFO_PAGE);
 
 // Update shirt Stock
-router.get("/:category/:shirt/updateStock", Controller.UPDATE_SHIRT_STOCK_PAGE);
+router.get(
+  "/:category/:shirt/update-stock",
+  Controller.UPDATE_SHIRT_STOCK_PAGE
+);
 
 // Delete shirt
-router.get("/:category/:shirt/delete", function (req, res, next) {});
+router.get("/:category/:shirt/delete-shirt", function (req, res, next) {});
 
 /* 
   ACTIONS 

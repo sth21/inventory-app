@@ -44,6 +44,7 @@ table {
 }
 
 :root {
+  box-sizing: border-box;
   --light-blue: #00B7FF;
   --light-grey: #D3D3D3;
 }
@@ -141,4 +142,57 @@ th {
 
 td, th {
   padding: 1em;
+}
+
+form {
+  margin-left: auto;
+  margin-right: auto;
+  width: clamp(350px, 50%, 500px);
+  margin-top: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1em;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+input {
+  flex: 1;
+}
+
+label {
+  font-size: .8rem;
+  font-weight: bold;
+}
+
+button {
+  background-color: var(--light-blue);
+  border: 1px solid var(--light-blue);
+  color: white;
+  padding: 1em 0em;
+  width: 100%;
+}
+
+.color-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em 0em;
 }

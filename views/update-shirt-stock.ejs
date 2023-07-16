@@ -9,9 +9,10 @@
 </head>
 <body>
     <h1>Update Shirt Stock</h1>
-    <a href="<%= locals.category.url %><%= locals.shirt.url %>">Go Back</a>
+    <a class="horizontal-links" href="<%= locals.category.url %><%= locals.shirt.url %>">Go Back</a>
     <form action="<%= locals.category.url %><%= locals.shirt.url %>/update-stock" method="post">
         <%- include("partials/stock-fieldset") %>
+        <%- include("partials/confirm-action-fieldset") %>
         <button type="submit" class="submit-btn">Update Shirt Stock</button>
     </form>
 </body>

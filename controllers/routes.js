@@ -100,6 +100,7 @@ exports.UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
     res.redirect(`${category.url}${shirt.url}`);
     return;
   }
+  console.log(result.array());
   res.render("update-shirt-info", {
     category: category,
     shirt: shirt,
