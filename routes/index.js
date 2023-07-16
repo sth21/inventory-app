@@ -69,7 +69,7 @@ router.post(
 
 // Update shirt info
 router.post(
-  "/:category/:shirt/updateInfo",
+  "/:category/:shirt/update-info",
   Validator.VALIDATE_SHIRT_INFO,
   Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_SHIRT_INFO_ACTION
@@ -77,7 +77,7 @@ router.post(
 
 // Update shirt stock
 router.post(
-  "/:category/:shirt/updateStock",
+  "/:category/:shirt/update-stock",
   Validator.VALIDATE_SHIRT_STOCK,
   Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_SHIRT_STOCK_ACTION

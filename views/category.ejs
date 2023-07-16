@@ -7,14 +7,18 @@
     <title>Shirt Shop - <%= locals.category.name %></title>
 </head>
 <body>
-    <h1><% locals.category.name %></h1>
-    <a href="/">Go Back</a>
-    <a href="<%= locals.category.url %>/new">Add New Shirt</a>
+    <h1><%= locals.category.name %></h1>
+    <div class="horizontal-links">
+        <a href="/">Go Back</a>
+        <a href="<%= locals.category.url %>/delete-category">Delete Category</a>
+        <a href="<%= locals.category.url %>/update-category">Update Category</a>
+        <a href="<%= locals.category.url %>/new">Add New Shirt</a>
+    </div>
     <div class="shirt-wrapper">
         <% locals.shirts.forEach((shirt) => { %>
             <a href="<%= category.url %><%= shirt.url %>" class="shirt">
-                <p><%= shirt.name %></p>
-                <p><%= shirt.price %></p>
+                <div class="mock-img" role="img"></div>
+                <p class="shirt-label"><%= shirt.name %> - <%= shirt.usd %></p>
             </a>
         <% }) %>
     </div>

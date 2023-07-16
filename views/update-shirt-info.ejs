@@ -10,7 +10,7 @@
 <body>
     <h1>Update Shirt Info</h1>
     <a href="<%= locals.category.url %><%= locals.shirt.url %>">Go Back</a>
-    <form action="<%= locals.category.url %><%= locals.shirt.url %>/updateInfo" method="post">
+    <form action="<%= locals.category.url %><%= locals.shirt.url %>/update-info" method="post">
         <%- include("partials/info-fieldset") %>
         <button type="submit" class="submit-btn">Update Shirt Info</button>
     </form>

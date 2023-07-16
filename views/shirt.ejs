@@ -8,9 +8,12 @@
 </head>
 <body>
     <h1><%= locals.shirt.name %></h1>
-    <a href="<%= locals.category.url %>">Go Back</a>
-    <a href="<%= locals.category.url %><%= locals.shirt.url %>/updateInfo">Update Shirt Info</a>
-    <a href="<%= locals.category.url %><%= locals.shirt.url %>/updateStock">Update Shirt Stock</a>
+    <div class="horizontal-links">
+        <a href="<%= locals.category.url %>">Go Back</a>
+        <a href="<%= locals.category.url %><%= locals.shirt.url %>/delete-shirt">Delete Shirt</a>
+        <a href="<%= locals.category.url %><%= locals.shirt.url %>/update-info">Update Shirt Info</a>
+        <a href="<%= locals.category.url %><%= locals.shirt.url %>/update-stock">Update Shirt Stock</a>
+    </div>
     <p><%= locals.shirt.description %></p>
     <p><%= locals.shirt.price %></p>
     <p><%= locals.shirt.category.name %></p>

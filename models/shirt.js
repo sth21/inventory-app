@@ -15,4 +15,8 @@ ShirtSchema.virtual("url").get(function () {
   return `/${this._id}`;
 });
 
+ShirtSchema.virtual("usd").get(function () {
+  return `$${this.price.toFixed(2)}`;
+});
+
 module.exports = new mongoose.model("Shirt", ShirtSchema);
