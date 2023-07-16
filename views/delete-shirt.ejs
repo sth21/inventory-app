@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Delete Shirt - <%= locals.category.name %></title>
+</head>
+<body>
+    <h1>Delete Shirt - <%= locals.shirt.name %></h1>
+    <a class="horizontal-links" href="<%= locals.category.url %>">Go back</a>
+    <form action="<%= locals.category.url %><%= locals.shirt.url %>/delete-shirt" method="post">
+        <%- include("partials/confirm-action-fieldset") %>
+        <button type="submit">Delete Shirt</button>
+    </form>
+</body>
+</html>

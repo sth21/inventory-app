@@ -57,7 +57,7 @@ router.get(
 );
 
 // Delete shirt
-router.get("/:category/:shirt/delete-shirt", function (req, res, next) {});
+router.get("/:category/:shirt/delete-shirt", Controller.DELETE_SHIRT_PAGE);
 
 /* 
   ACTIONS 
@@ -88,7 +88,7 @@ router.post(
 
 // Delete shirt
 router.post(
-  "/:category/:shirt/delete",
+  "/:category/:shirt/delete-shirt",
   Validator.VALIDATE_PASSWORD,
   Controller.DELETE_SHIRT_ACTION
 );

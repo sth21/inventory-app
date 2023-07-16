@@ -52,6 +52,10 @@ exports.UPDATE_SHIRT_STOCK_PAGE = asyncHandler(async (req, res, next) => {
   });
 });
 
+exports.DELETE_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
+  res.render("delete-shirt", { category: req.category, shirt: req.shirt });
+});
+
 exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   const result = validationResult(req);
 
