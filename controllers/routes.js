@@ -160,3 +160,18 @@ exports.UPDATE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
   }
   res.render("update-category", { name: req.body.name });
 });
+
+exports.DELETE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
+  const result = validationResult(req);
+
+  if (result.isEmpty()) {
+    const shirts = await Shirt.find({ category: req.category._id });
+    const stocks = shirts.map((shirt) => shirt.stock);
+    await Stock.deleteMany({ _id: { $in: stocks } });
+    await Shirt.deleteMany({ _id: { $in: shirts.map((shirt) => shirt._id) } });
+    await Category.deleteOne({ _id: req.category._id });
+    res.redirect("/");
+    return;
+  }
+  res.render("delete-category", { category: req.category });
+});

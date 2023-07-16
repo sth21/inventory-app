@@ -11,13 +11,6 @@
     <a href="<%= locals.category.url %>">Go Back</a>
     <a href="<%= locals.category.url %><%= locals.shirt.url %>/updateInfo">Update Shirt Info</a>
     <a href="<%= locals.category.url %><%= locals.shirt.url %>/updateStock">Update Shirt Stock</a>
-    <form action="<%= locals.category.url %><%= locals.shirt.url %>/delete" method="post">
-        <div class="input-wrapper">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-        </div>
-        <button type="submit">Delete Shirt</button>
-    </form>
     <p><%= locals.shirt.description %></p>
     <p><%= locals.shirt.price %></p>
     <p><%= locals.shirt.category.name %></p>

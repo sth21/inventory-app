@@ -71,6 +71,7 @@ router.post(
 router.post(
   "/:category/:shirt/updateInfo",
   Validator.VALIDATE_SHIRT_INFO,
+  Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_SHIRT_INFO_ACTION
 );
 
@@ -78,6 +79,7 @@ router.post(
 router.post(
   "/:category/:shirt/updateStock",
   Validator.VALIDATE_SHIRT_STOCK,
+  Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_SHIRT_STOCK_ACTION
 );
 
@@ -89,17 +91,19 @@ router.post(
 );
 
 // Create category
-router.post(
-  "/newCategory",
-  Validator.VALIDATE_PASSWORD,
-  Controller.NEW_CATEGORY_ACTION
-);
+router.post("/new-category", Controller.NEW_CATEGORY_ACTION);
 
 // Update category info
 router.post(
-  "/updateCategory",
+  "/update-category",
   Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_CATEGORY_ACTION
+);
+
+router.post(
+  "/delete-category",
+  Validator.VALIDATE_PASSWORD,
+  Controller.DELETE_CATEGORY_ACTION
 );
 
 module.exports = router;
