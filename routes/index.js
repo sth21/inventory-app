@@ -38,14 +38,14 @@ router.param(
 // Home
 router.get("/", Controller.GET_HOME_PAGE);
 
+// Create Category
+router.get("/new-category", Controller.ADD_NEW_CATEGORY_PAGE);
+
 // View Category
 router.get("/:category", Controller.GET_CATEGORY_PAGE);
 
 // Create shirt
-router.get("/:category/new", Controller.ADD_NEW_SHIRT_PAGE);
-
-// View shirt
-router.get("/:category/:shirt", Controller.GET_SHIRT_PAGE);
+router.get("/:category/new-shirt", Controller.ADD_NEW_SHIRT_PAGE);
 
 // Update shirt Info
 router.get("/:category/:shirt/update-info", Controller.UPDATE_SHIRT_INFO_PAGE);
@@ -59,14 +59,24 @@ router.get(
 // Delete shirt
 router.get("/:category/:shirt/delete-shirt", Controller.DELETE_SHIRT_PAGE);
 
+// Update Category
+router.get("/:category/update-category", Controller.UPDATE_CATEGORY_PAGE);
+
+// Delete Category
+router.get("/:category/delete-category", Controller.DELETE_CATEGORY_PAGE);
+
+// View shirt
+router.get("/:category/:shirt", Controller.GET_SHIRT_PAGE);
+
 /* 
   ACTIONS 
 */
 
 // Create shirt
 router.post(
-  "/:category/new",
+  "/:category/new-shirt",
   Validator.VALIDATE_SHIRT,
+  Validator.VALIDATE_PASSWORD,
   Controller.NEW_SHIRT_ACTION
 );
 
@@ -94,17 +104,24 @@ router.post(
 );
 
 // Create category
-router.post("/new-category", Controller.NEW_CATEGORY_ACTION);
+router.post(
+  "/new-category",
+  Validator.VALIDATE_CATEGORY,
+  Validator.VALIDATE_PASSWORD,
+  Controller.NEW_CATEGORY_ACTION
+);
 
 // Update category info
 router.post(
-  "/update-category",
+  "/:category/update-category",
+  Validator.VALIDATE_CATEGORY,
   Validator.VALIDATE_PASSWORD,
   Controller.UPDATE_CATEGORY_ACTION
 );
 
+// Delete Category
 router.post(
-  "/delete-category",
+  "/:category/delete-category",
   Validator.VALIDATE_PASSWORD,
   Controller.DELETE_CATEGORY_ACTION
 );

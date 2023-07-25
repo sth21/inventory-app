@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Update Category</title>
+</head>
+<body>
+    <h1>Update Category - <%= locals.category.name %></h1>
+    <a class="horizontal-links" href="<%= locals.category.url %>">Go Back</a>
+    <form action="<%= locals.category.url %>/update-category" method="post">
+        <fieldset>
+            <legend>Category Info</legend>
+            <div class="input-wrapper">
+                <label for="categoryName">Name</label>
+                <input type="text" name="categoryName" id="categoryName" value="<%= locals.category.name %>" required>
+            </div>
+        </fieldset>
+        <%- include("partials/confirm-action-fieldset") %>
+        <button type="submit">Update Category</button>
+    </form>
+    <%- include("partials/errors") %>
+</body>
+</html>

@@ -38,22 +38,44 @@ exports.GET_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
 exports.ADD_NEW_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
   res.render("new-shirt", {
     category: req.category,
+    errors: [],
   });
 });
 
 exports.UPDATE_SHIRT_INFO_PAGE = asyncHandler(async (req, res, next) => {
-  res.render("update-shirt-info", { category: req.category, shirt: req.shirt });
+  res.render("update-shirt-info", {
+    category: req.category,
+    shirt: req.shirt,
+    errors: [],
+  });
 });
 
 exports.UPDATE_SHIRT_STOCK_PAGE = asyncHandler(async (req, res, next) => {
   res.render("update-shirt-stock", {
     category: req.category,
     shirt: req.shirt,
+    errors: [],
   });
 });
 
 exports.DELETE_SHIRT_PAGE = asyncHandler(async (req, res, next) => {
-  res.render("delete-shirt", { category: req.category, shirt: req.shirt });
+  res.render("delete-shirt", {
+    category: req.category,
+    shirt: req.shirt,
+    errors: [],
+  });
+});
+
+exports.ADD_NEW_CATEGORY_PAGE = asyncHandler(async (req, res, next) => {
+  res.render("new-category", { errors: [] });
+});
+
+exports.UPDATE_CATEGORY_PAGE = asyncHandler(async (req, res, next) => {
+  res.render("update-category", { category: req.category, errors: [] });
+});
+
+exports.DELETE_CATEGORY_PAGE = asyncHandler(async (req, res, next) => {
+  res.render("delete-category", { category: req.category, errors: [] });
 });
 
 exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
@@ -87,6 +109,7 @@ exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   res.render("new-shirt", {
     category: req.category,
     shirt: failedShirt,
+    errors: result.array(),
   });
 });
 
@@ -97,17 +120,21 @@ exports.UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
-    await Shirt.updateOne(
-      { _id: shirt._id },
-      { name: data.shirtName, description: data.description, price: data.price }
-    );
-    res.redirect(`${category.url}${shirt.url}`);
+    const shirtToUpdate = Shirt.findOne({ _id: shirt._id });
+    shirtToUpdate = {
+      ...shirtToUpdate,
+      name: data.shirtName,
+      description: data.description,
+      price: data.price,
+    };
+    await shirtToUpdate.save();
+    res.redirect(`${category.url}${shirtToUpdate.url}`);
     return;
   }
-  console.log(result.array());
   res.render("update-shirt-info", {
     category: category,
     shirt: shirt,
+    errors: result.array(),
   });
 });
 
@@ -128,6 +155,7 @@ exports.UPDATE_SHIRT_STOCK_ACTION = asyncHandler(async (req, res, next) => {
   res.render("update-shirt-stock", {
     category: category,
     shirt: shirt,
+    errors: result.array(),
   });
 });
 
@@ -139,7 +167,11 @@ exports.DELETE_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
     res.redirect(`${req.category.url}`);
     return;
   }
-  res.render("shirt", { category: req.category, shirt: req.shirt });
+  res.render("shirt", {
+    category: req.category,
+    shirt: req.shirt,
+    errors: result.array(),
+  });
 });
 
 exports.NEW_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
@@ -147,11 +179,11 @@ exports.NEW_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
-    const category = await Category.create({ name: data.name });
+    const category = await Category.create({ name: data.categoryName });
     res.redirect(`${category.url}`);
     return;
   }
-  res.render("new-category", { name: req.body.name });
+  res.render("new-category", { name: req.body.name, errors: result.array() });
 });
 
 exports.UPDATE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
@@ -159,11 +191,17 @@ exports.UPDATE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
-    await Category.updateOne({ _id: req.category._id }, { name: data.name });
-    res.redirect(`${req.category._id}`);
+    const categoryToUpdate = await Category.findOne({ _id: req.category._id });
+    categoryToUpdate.name = data.categoryName;
+    await categoryToUpdate.save();
+    res.redirect(`${categoryToUpdate.url}`);
     return;
   }
-  res.render("update-category", { name: req.body.name });
+
+  res.status(400).render("update-category", {
+    category: req.category,
+    errors: result.array(),
+  });
 });
 
 exports.DELETE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
@@ -178,5 +216,8 @@ exports.DELETE_CATEGORY_ACTION = asyncHandler(async (req, res, next) => {
     res.redirect("/");
     return;
   }
-  res.render("delete-category", { category: req.category });
+  res.render("delete-category", {
+    category: req.category,
+    errors: result.array(),
+  });
 });

@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>Shirt Shop</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
   </head>
   <body>
     <h1>Shirt Shop</h1>
+    <a class="horizontal-links" href="/new-category">Add Category</a>
     <div class="item-wrapper">
       <% locals.categories.forEach((category) => { %>
         <a class="item" href="<%= category.url %>">

@@ -9,12 +9,13 @@ const CATEGORY_NAME = body("categoryName")
   .notEmpty()
   .isAlpha("en-US", { ignore: " " })
   .custom(async (val) => {
-    const category = await Category.find({ name: val });
+    const category = await Category.findOne({ name: val });
     if (category) {
       throw new Error("Category already exists");
     }
     return true;
   })
+  .toLowerCase()
   .escape();
 
 const ADD_SHIRT_NAME = body("shirtName")
@@ -118,3 +119,5 @@ exports.VALIDATE_PASSWORD = body("password")
     if (v === process.env.ADMIN_KEY) return true;
     throw new Error("Password incorrect");
   });
+
+exports.VALIDATE_CATEGORY = CATEGORY_NAME;

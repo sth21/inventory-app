@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Add Category</title>
+</head>
+<body>
+    <h1>Add Category</h1>
+    <a class="horizontal-links" href="/">Go Back</a>
+    <form action="/new-category" method="post">
+        <fieldset>
+            <div class="input-wrapper">
+                <label for="categoryName">Name</label>
+                <input type="text" name="categoryName" id="categoryName" required>
+            </div>
+        </fieldset>
+        <%- include("partials/confirm-action-fieldset") %>
+        <button type="submit">Add Category</button>
+    </form>
+    <%- include("partials/errors") %>
+</body>
+</html>

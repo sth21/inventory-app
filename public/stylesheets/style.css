@@ -196,3 +196,10 @@ button {
   gap: 1em;
   padding: 1em 0em;
 }
+
+.error-view {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1em;
+}
