@@ -104,13 +104,10 @@ exports.UPDATE_SHIRT_INFO_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
-    const shirtToUpdate = Shirt.findOne({ _id: shirt._id });
-    shirtToUpdate = {
-      ...shirtToUpdate,
-      name: data.shirtName,
-      description: data.description,
-      price: data.price,
-    };
+    const shirtToUpdate = await Shirt.findOne({ _id: shirt._id });
+    shirtToUpdate.name = data.shirtName;
+    shirtToUpdate.description = data.description;
+    shirtToUpdate.price = data.price;
     await shirtToUpdate.save();
     res.redirect(`${category.url}${shirtToUpdate.url}`);
     return;
