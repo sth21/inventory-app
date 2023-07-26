@@ -1,5 +1,5 @@
 <div class="error-view">
     <% locals.errors.forEach((err) => { %>
-        <p><%= err.msg %></p>
+        <p><%= err.msg %> @ <%= err.path %></p>
     <% }) %>
 </div>

@@ -199,7 +199,10 @@ button {
 
 .error-view {
   color: red;
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
   font-weight: bold;
-  text-align: center;
+  text-align: left;
   margin-top: 1em;
 }

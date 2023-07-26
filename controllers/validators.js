@@ -44,6 +44,7 @@ const SHIRT_DESCRIPTION = body("description")
   .trim()
   .notEmpty()
   .isAlpha("en-US", { ignore: " " })
+  .withMessage("Includes forbidden characters")
   .escape();
 
 const SHIRT_PRICE = body("price").trim().notEmpty().isNumeric().escape();
@@ -64,59 +65,63 @@ const SHIRT_STOCK = body("stock")
   .isObject()
   .custom((value) => {
     if (value.colors.length === 0) throw new Error("No color provided");
-  })
-  .escape();
+    return true;
+  });
 
-const COLOR_NAME = body("stock.*.colorName")
+const COLOR_NAME = body("stock.colors.*.name")
   .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .trim()
   .notEmpty()
+  .withMessage("No color name given")
   .isAlpha("en-US", { ignore: " " })
+  .withMessage("Includes forbidden characters")
   .escape();
 
-const HEX_CODE = body("stock.*.hexCode")
+const HEX_CODE = body("stock.color.*.hexCode")
   .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .trim()
   .notEmpty()
+  .withMessage("No hex code given")
   .isHexColor()
+  .withMessage("Not a hex code")
   .escape();
 
 const SIZE = body([
-  "stock.*.XS",
-  "stock.*.S",
-  "stock.*.M",
-  "stock.*.L",
-  "stock.*.XL",
-  "stock.*.XXL",
+  "stock.colors.*.XS",
+  "stock.colors.*.S",
+  "stock.colors.*.M",
+  "stock.colors.*.L",
+  "stock.colors.*.XL",
+  "stock.colors.*.XXL",
 ])
   .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .isNumeric()
   .isInt()
+  .withMessage("Not an integer")
   .custom((val) => val >= 0)
   .escape();
 
-const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
+const CREATE_STOCK = body("stock").customSanitizer((value, { req }) => {
+  let props;
+
   if (req.body.colorName === undefined) {
-    req.body.stock = JSON.stringify({ colors: [] });
-    console.log(req.body.stock);
-    next();
-    return;
+    req.body.colorName = [];
+  } else {
+    props = ["colorName", "hexCode", "XS", "S", "M", "L", "XL", "XXL"];
+    props.forEach((prop) => {
+      if (!Array.isArray(req.body[prop])) {
+        req.body[prop] = [req.body[prop]];
+      }
+    });
   }
 
-  const props = ["colorName", "hexCode", "XS", "S", "M", "L", "XL", "XXL"];
-  props.forEach((prop) => {
-    if (!Array.isArray(req.body[prop])) {
-      req.body[prop] = [req.body[prop]];
-    }
-  });
-
-  req.body.stock = JSON.stringify({
+  return {
     colors: req.body.colorName.map((colorName, i) => {
       return {
-        colorName: colorName,
+        name: colorName,
         hexCode: req.body.hexCode[i],
         XS: req.body.XS[i],
         S: req.body.S[i],
@@ -126,13 +131,11 @@ const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
         XXL: req.body.XXL[i],
       };
     }),
-  });
-
-  next();
+  };
 });
 
 exports.VALIDATE_SHIRT = [
-  CREATE_COLOR_ARRAY,
+  CREATE_STOCK,
   ADD_SHIRT_NAME,
   SHIRT_DESCRIPTION,
   SHIRT_PRICE,
@@ -144,14 +147,14 @@ exports.VALIDATE_SHIRT = [
 ];
 
 exports.VALIDATE_SHIRT_INFO = [
-  CREATE_COLOR_ARRAY,
+  CREATE_STOCK,
   UPDATE_SHIRT_NAME,
   SHIRT_DESCRIPTION,
   SHIRT_PRICE,
 ];
 
 exports.VALIDATE_SHIRT_STOCK = [
-  CREATE_COLOR_ARRAY,
+  CREATE_STOCK,
   SHIRT_STOCK,
   COLOR_NAME,
   HEX_CODE,
