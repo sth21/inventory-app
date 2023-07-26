@@ -26,7 +26,6 @@ const ADD_SHIRT_NAME = body("shirtName")
   .custom(async (val) => {
     const shirt = await Shirt.findOne({ name: val });
     if (shirt) {
-      console.log(shirt);
       throw new Error("Shirt name already in use");
     }
     return true;
@@ -54,27 +53,45 @@ const SHIRT_CATEGORY = param("category")
   .trim()
   .notEmpty()
   .custom(async (val) => {
-    const category = await Category.find().byNameParam(val);
+    const category = await Category.findOne().byNameParam(val);
     if (category) return true;
     throw new Error("Category does not exist");
   })
   .escape();
 
-const COLOR_NAME = body("colorName.*")
+const SHIRT_STOCK = body("stock")
+  .exists()
+  .isObject()
+  .custom((value) => {
+    if (value.colors.length === 0) throw new Error("No color provided");
+  })
+  .escape();
+
+const COLOR_NAME = body("stock.*.colorName")
+  .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .trim()
   .notEmpty()
   .isAlpha("en-US", { ignore: " " })
   .escape();
 
-const HEX_CODE = body("hexCode.*")
+const HEX_CODE = body("stock.*.hexCode")
+  .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .trim()
   .notEmpty()
   .isHexColor()
   .escape();
 
-const SIZE = body(["XS.*", "S.*", "M.*", "L.*", "XL.*", "XXL.*"])
+const SIZE = body([
+  "stock.*.XS",
+  "stock.*.S",
+  "stock.*.M",
+  "stock.*.L",
+  "stock.*.XL",
+  "stock.*.XXL",
+])
+  .if(body("stock.colors").isArray({ min: 1 }))
   .exists()
   .isNumeric()
   .isInt()
@@ -82,12 +99,34 @@ const SIZE = body(["XS.*", "S.*", "M.*", "L.*", "XL.*", "XXL.*"])
   .escape();
 
 const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
+  if (req.body.colorName === undefined) {
+    req.body.stock = { colors: [] };
+    next();
+    return;
+  }
+
   const props = ["colorName", "hexCode", "XS", "S", "M", "L", "XL", "XXL"];
   props.forEach((prop) => {
     if (!Array.isArray(req.body[prop])) {
       req.body[prop] = [req.body[prop]];
     }
   });
+
+  req.body.stock = {
+    colors: req.body.colorName.map((colorName, i) => {
+      return {
+        colorName: colorName,
+        hexCode: req.body.hexCode[i],
+        XS: req.body.XS[i],
+        S: req.body.S[i],
+        M: req.body.M[i],
+        L: req.body.L[i],
+        XL: req.body.XL[i],
+        XXL: req.body.XXL[i],
+      };
+    }),
+  };
+
   next();
 });
 
@@ -97,6 +136,7 @@ exports.VALIDATE_SHIRT = [
   SHIRT_DESCRIPTION,
   SHIRT_PRICE,
   SHIRT_CATEGORY,
+  SHIRT_STOCK,
   COLOR_NAME,
   HEX_CODE,
   SIZE,
@@ -109,7 +149,13 @@ exports.VALIDATE_SHIRT_INFO = [
   SHIRT_PRICE,
 ];
 
-exports.VALIDATE_SHIRT_STOCK = [CREATE_COLOR_ARRAY, COLOR_NAME, HEX_CODE, SIZE];
+exports.VALIDATE_SHIRT_STOCK = [
+  CREATE_COLOR_ARRAY,
+  SHIRT_STOCK,
+  COLOR_NAME,
+  HEX_CODE,
+  SIZE,
+];
 
 exports.VALIDATE_PASSWORD = body("password")
   .exists()

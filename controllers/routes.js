@@ -6,21 +6,6 @@ const mongoose = require("mongoose");
 const Stock = require("../models/stock");
 require("dotenv").config();
 
-const populateStockColors = (data) => {
-  return data.colorName.map((color, index) => {
-    return {
-      name: color,
-      hexCode: data.hexCode[index],
-      XS: data.XS[index],
-      S: data.S[index],
-      M: data.M[index],
-      L: data.L[index],
-      XL: data.XL[index],
-      XXL: data.XXL[index],
-    };
-  });
-};
-
 exports.GET_HOME_PAGE = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
   res.render("index", { categories: categories });
@@ -84,10 +69,7 @@ exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
   if (result.isEmpty()) {
     const data = matchedData(req);
     const shirtId = new mongoose.Types.ObjectId();
-    const stock = await Stock.create({
-      product: shirtId,
-      colors: populateStockColors(data),
-    });
+    const stock = await Stock.create({ product: shirtId, ...data.stock });
     const shirt = await Shirt.create({
       _id: shirtId,
       name: data.shirtName,
@@ -100,12 +82,14 @@ exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
     res.redirect(`${req.category.url}${shirt.url}`);
     return;
   }
+
   const failedShirt = {
     name: req.body.shirtName,
     description: req.body.description,
     price: req.body.price,
-    stock: { colors: populateStockColors(req.body) },
+    stock: req.body.stock,
   };
+
   res.render("new-shirt", {
     category: req.category,
     shirt: failedShirt,
@@ -145,10 +129,7 @@ exports.UPDATE_SHIRT_STOCK_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
-    await Stock.updateOne(
-      { _id: shirt.stock._id },
-      { colors: populateStockColors(data) }
-    );
+    await Stock.updateOne({ _id: shirt.stock._id }, data.stock);
     res.redirect(`${category.url}${shirt.url}`);
     return;
   }
