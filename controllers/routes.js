@@ -5,6 +5,7 @@ const { validationResult, matchedData } = require("express-validator");
 const mongoose = require("mongoose");
 const Stock = require("../models/stock");
 require("dotenv").config();
+const he = require("he");
 
 exports.GET_HOME_PAGE = asyncHandler(async (req, res, next) => {
   const categories = await Category.find();
@@ -68,6 +69,7 @@ exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
 
   if (result.isEmpty()) {
     const data = matchedData(req);
+    console.log(data);
     const shirtId = new mongoose.Types.ObjectId();
     const stock = await Stock.create({ product: shirtId, ...data.stock });
     const shirt = await Shirt.create({
@@ -87,7 +89,7 @@ exports.NEW_SHIRT_ACTION = asyncHandler(async (req, res, next) => {
     name: req.body.shirtName,
     description: req.body.description,
     price: req.body.price,
-    stock: req.body.stock,
+    stock: JSON.parse(he.decode(req.body.stock)),
   };
 
   res.render("new-shirt", {

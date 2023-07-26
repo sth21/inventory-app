@@ -100,7 +100,8 @@ const SIZE = body([
 
 const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
   if (req.body.colorName === undefined) {
-    req.body.stock = { colors: [] };
+    req.body.stock = JSON.stringify({ colors: [] });
+    console.log(req.body.stock);
     next();
     return;
   }
@@ -112,7 +113,7 @@ const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
     }
   });
 
-  req.body.stock = {
+  req.body.stock = JSON.stringify({
     colors: req.body.colorName.map((colorName, i) => {
       return {
         colorName: colorName,
@@ -125,7 +126,7 @@ const CREATE_COLOR_ARRAY = asyncHandler(async (req, res, next) => {
         XXL: req.body.XXL[i],
       };
     }),
-  };
+  });
 
   next();
 });
